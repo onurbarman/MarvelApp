@@ -7,7 +7,11 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.app.marvelapp.R
+import com.app.marvelapp.data.model.characters.MarvelCharactersResults
 import com.app.marvelapp.databinding.FragmentHomeBinding
+import com.app.marvelapp.ui.main.MainActivity
+import com.app.marvelapp.ui.main.MainActivity_GeneratedInjector
+import com.app.marvelapp.ui.main.comics.ComicsFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -26,17 +30,21 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
     private fun initView() {
         binding.run {
-            charactersAdapter = CharactersAdapter()
+            charactersAdapter = CharactersAdapter {character -> characterClick(character) }
             recyclerViewCharacters.layoutManager = GridLayoutManager(requireContext(),2,RecyclerView.VERTICAL,false)
             recyclerViewCharacters.adapter=charactersAdapter
         }
     }
 
-
     private fun listenCharactersData() {
         viewModel.getCharacters().observe(requireActivity(),{
             charactersAdapter.submitList(it)
         })
+    }
+
+    private fun characterClick(character: MarvelCharactersResults) {
+        val comicsFragment = ComicsFragment(character)
+        (activity as MainActivity).loadFragment(comicsFragment,"ComicsFragment")
     }
 
 }

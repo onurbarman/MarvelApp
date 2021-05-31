@@ -1,4 +1,4 @@
-package com.app.marvelapp.data.model
+package com.app.marvelapp.data.model.characters
 
 data class MarvelCharactersThumbnail(
     val extension: String,

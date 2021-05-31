@@ -11,11 +11,10 @@ import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.app.marvelapp.R
-import com.app.marvelapp.data.model.MarvelCharactersData
-import com.app.marvelapp.data.model.MarvelCharactersResults
+import com.app.marvelapp.data.model.characters.MarvelCharactersResults
 import com.app.marvelapp.utils.GlideUtils
 
-class CharactersAdapter
+class CharactersAdapter(private val onCharacterClick: (character: MarvelCharactersResults) -> Unit)
     : PagedListAdapter<MarvelCharactersResults, CharactersAdapter.CharactersViewHolder>(characterDiff) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CharactersViewHolder {
@@ -37,6 +36,10 @@ class CharactersAdapter
         @SuppressLint("SetTextI18n")
         fun bind(character: MarvelCharactersResults) {
             itemView.animation= AnimationUtils.loadAnimation(itemView.context,R.anim.anim_vertical_recyclerview)
+
+            itemView.setOnClickListener {
+                onCharacterClick.invoke(character)
+            }
 
             character.thumbnail.run {
                 GlideUtils.urlToImageView(imgCharacter.context, "$path.$extension",imgCharacter)

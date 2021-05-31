@@ -8,6 +8,8 @@ import com.app.marvelapp.data.remote.Resource
 import retrofit2.Response
 import java.math.BigInteger
 import java.security.MessageDigest
+import java.text.SimpleDateFormat
+import java.util.*
 
 object Utils {
     fun showToast(context : Context, message : String) = Toast.makeText(context,message, Toast.LENGTH_SHORT).show()
@@ -24,6 +26,16 @@ object Utils {
         val md = MessageDigest.getInstance("MD5")
         return BigInteger(1, md.digest(input.toByteArray())).toString(16).padStart(32, '0')
     }
+
+    fun Date.toString(format: String, locale: Locale = Locale.getDefault()): String {
+        val formatter = SimpleDateFormat(format, locale)
+        return formatter.format(this)
+    }
+
+    fun getCurrentDateTime(): Date {
+        return Calendar.getInstance().time
+    }
+
 
     suspend fun <T : Any> safeApiCall(call: suspend () -> Response<T>): Resource<T> {
         return try {

@@ -1,7 +1,7 @@
 package com.app.marvelapp
 
-import android.app.Application
+import androidx.multidex.MultiDexApplication
 import dagger.hilt.android.HiltAndroidApp
 
 @HiltAndroidApp
-class MarvelApplication : Application()
+class MarvelApplication : MultiDexApplication()

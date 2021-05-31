@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.paging.DataSource
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
-import com.app.marvelapp.data.model.MarvelCharactersResults
+import com.app.marvelapp.data.model.characters.MarvelCharactersResults
 import com.app.marvelapp.data.repository.MarvelDataSource
 import com.app.marvelapp.data.repository.MarvelRepository
 import com.app.marvelapp.utils.Constants

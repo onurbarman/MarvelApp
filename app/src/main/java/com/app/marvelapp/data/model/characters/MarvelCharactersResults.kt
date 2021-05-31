@@ -1,4 +1,4 @@
-package com.app.marvelapp.data.model
+package com.app.marvelapp.data.model.characters
 
 data class MarvelCharactersResults(
     val description: String,

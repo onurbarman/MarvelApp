@@ -2,7 +2,7 @@ package com.app.marvelapp.data.repository
 
 import android.util.Log
 import androidx.paging.PageKeyedDataSource
-import com.app.marvelapp.data.model.MarvelCharactersResults
+import com.app.marvelapp.data.model.characters.MarvelCharactersResults
 import com.app.marvelapp.utils.Constants
 import com.app.marvelapp.utils.Utils
 import kotlinx.coroutines.CoroutineScope
@@ -16,12 +16,10 @@ private val repository: MarvelRepository) :PageKeyedDataSource<String, MarvelCha
 
     private val job = Job()
     private val scope = CoroutineScope(coroutineContext + job)
-    val ts = (Calendar.getInstance(TimeZone.getTimeZone("UTC")).timeInMillis / 1000L).toString()
-    val hash = Utils.md5(ts+ Constants.API_PRIVATE_KEY+ Constants.API_PUBLIC_KEY)
 
     override fun loadInitial(params: LoadInitialParams<String>, callback: LoadInitialCallback<String, MarvelCharactersResults>) {
         scope.launch {
-            val response = repository.getCharacters(ts = ts, hash = hash, offset = 0)
+            val response = repository.getCharacters(offset = 0)
             response.data?.let { responseData ->
                 Log.d("marvelpage","page: "+"1"+",loadsize: "+params.requestedLoadSize+
                         ",total: "+responseData.data.results.size)
@@ -36,7 +34,7 @@ private val repository: MarvelRepository) :PageKeyedDataSource<String, MarvelCha
         scope.launch {
                 val page = params.key
                 val numberOfItems = params.requestedLoadSize * page.toInt()
-                val response = repository.getCharacters(ts = ts, hash = hash, offset = numberOfItems)
+                val response = repository.getCharacters(offset = numberOfItems)
                 response.data?.let { responseData ->
                     Log.d("marvelpage","page: "+page+",loadsize: "+numberOfItems+
                             ",total: "+responseData.data.results.size)
@@ -50,7 +48,7 @@ private val repository: MarvelRepository) :PageKeyedDataSource<String, MarvelCha
         scope.launch {
             val page = params.key
             val numberOfItems = params.requestedLoadSize * page.toInt()
-            val response = repository.getCharacters(ts = ts, hash = hash, offset = numberOfItems)
+            val response = repository.getCharacters(offset = numberOfItems)
             response.data?.let { responseData ->
                 Log.d("marvelpage","page: "+page+",loadsize: "+numberOfItems+
                         ",total: "+responseData.data.results.size)
